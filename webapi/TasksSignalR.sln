@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{51D3720B-A625-4541-80A1-2A2A47C39A09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TasksApi", "Api\TasksApi\TasksApi\TasksApi.csproj", "{5B3A3705-99C2-4CCA-A71A-D8E7386F47A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B3A3705-99C2-4CCA-A71A-D8E7386F47A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B3A3705-99C2-4CCA-A71A-D8E7386F47A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B3A3705-99C2-4CCA-A71A-D8E7386F47A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B3A3705-99C2-4CCA-A71A-D8E7386F47A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5B3A3705-99C2-4CCA-A71A-D8E7386F47A2} = {51D3720B-A625-4541-80A1-2A2A47C39A09}
+	EndGlobalSection
+EndGlobal
