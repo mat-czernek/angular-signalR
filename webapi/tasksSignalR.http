@@ -1,0 +1,6 @@
+@tasksSignalR_HostAddress = http://localhost:5074
+
+GET {{tasksSignalR_HostAddress}}/tasks/
+Accept: application/json
+
+###
