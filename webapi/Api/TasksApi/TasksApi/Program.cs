@@ -1,4 +1,4 @@
-namespace tasksSignalR;
+namespace TasksApi;
 
 public class Program
 {
@@ -7,9 +7,8 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddAuthorization();
-        builder.Services.AddControllers();
 
+        builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
 
@@ -24,9 +23,10 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-        
+
+
         app.MapControllers();
-        
+
         app.Run();
     }
 }

@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace tasksSignalR.Controllers;
+namespace TasksApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class TasksController : ControllerBase
 {
-    [HttpGet]
-    public IActionResult GetTasks()
+    [HttpGet(Name = "GetTasks")]
+    public IActionResult Get()
     {
         return Ok();
     }
