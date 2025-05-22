@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace TasksApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class TasksController : ControllerBase
 {
-    [HttpGet(Name = "GetTasks")]
+    [HttpGet("ping")]
     public IActionResult Get()
     {
         return Ok();
