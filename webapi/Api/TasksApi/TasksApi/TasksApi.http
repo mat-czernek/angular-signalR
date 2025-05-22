@@ -1,6 +1,6 @@
 @TasksApi_HostAddress = http://localhost:5172
 
-GET {{TasksApi_HostAddress}}/tasks/
+GET {{TasksApi_HostAddress}}/api/tasks/ping/
 Accept: application/json
 
 ###
