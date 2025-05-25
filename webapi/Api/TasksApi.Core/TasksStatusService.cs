@@ -41,15 +41,22 @@ public class TasksStatusService : ITasksStatusService
 
     public async Task ExecuteTask(TaskDto task)
     {
-        ArgumentNullException.ThrowIfNull(task);
-
         if (_taskStorage.TryGetById(task.Id, out var taskToExecute) == false)
             return;
         
         if (taskToExecute == null)
             return;
+
+        taskToExecute.Status = TaskStatusDto.InProgress;
+        _taskStorage.Update(taskToExecute);
+        await _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
         
-        // TODO: Execute fake task
-        // await...
+        var random = new Random();
+        int delay = random.Next(10, 30) * 1000;
+        await Task.Delay(delay);
+        
+        taskToExecute.Status = TaskStatusDto.Completed;
+        _taskStorage.Update(taskToExecute);
+        await _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
     }
 }
