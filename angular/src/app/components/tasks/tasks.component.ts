@@ -18,10 +18,10 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 export class TasksComponent implements OnInit {
   public allTasks = signal<Array<TaskDto>>([]);
   public tasksSubscription?: Subscription;
-  public tasksForm: FormGroup;
+  public taskForm: FormGroup;
 
   constructor(private tasksService: TasksService, private tasksSignalrService: TasksSignalrService, private formBuilder: FormBuilder) {
-    this.tasksForm = this.formBuilder.group({
+    this.taskForm = this.formBuilder.group({
       taskName: ['', Validators.required],
     });
   }
@@ -41,10 +41,16 @@ export class TasksComponent implements OnInit {
   }
 
   onAddTask() {
-    console.log(this.tasksForm.value.taskName);
-    const task = new TaskDto(0, this.tasksForm.value.taskName, 0);
+    console.log(this.taskForm.value.taskName);
+    const task = new TaskDto(0, this.taskForm.value.taskName, 0);
     this.tasksService.add(task).subscribe(() => {
       console.log("Added task");
+    })
+  }
+
+  onRemoveTask(id: number) {
+    this.tasksService.delete(id).subscribe(() => {
+      console.log("Task deleted");
     })
   }
 }
