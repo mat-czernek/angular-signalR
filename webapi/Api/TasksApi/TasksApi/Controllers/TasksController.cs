@@ -47,9 +47,9 @@ public class TasksController : ControllerBase
     }
 
     [HttpPost("execute")]
-    public async Task<IActionResult> ExecuteTask([FromBody] TaskDto task)
+    public IActionResult ExecuteTask([FromBody] TaskDto task)
     {
-        await _tasksStatusService.ExecuteTask(task);
+        Task.Run(() => _tasksStatusService.ExecuteTask(task));
         
         return Ok();
     }
