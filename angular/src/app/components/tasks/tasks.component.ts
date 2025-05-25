@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
+import {TableModule} from 'primeng/table';
 
 @Component({
   selector: 'app-tasks',
@@ -15,7 +16,8 @@ import {InputTextModule} from 'primeng/inputtext';
   imports: [
     ReactiveFormsModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    TableModule
   ],
   styleUrl: './tasks.component.css'
 })

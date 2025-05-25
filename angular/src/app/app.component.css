@@ -1,0 +1,7 @@
+.app-main-area {
+  display: flex;
+  justify-content: center; /* horizontal center */
+  align-items: center; /* vertical center */
+  width: 100%;
+  box-sizing: border-box;
+}
