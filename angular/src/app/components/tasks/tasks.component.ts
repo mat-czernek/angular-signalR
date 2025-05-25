@@ -4,6 +4,8 @@ import {TasksSignalrService} from './services/tasks-signalr.service';
 import {TaskDto} from './models/taskDto';
 import {Subscription} from 'rxjs';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ButtonModule} from 'primeng/button';
+import {InputTextModule} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-tasks',
@@ -11,7 +13,9 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
   standalone: true,
   templateUrl: './tasks.component.html',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ButtonModule,
+    InputTextModule
   ],
   styleUrl: './tasks.component.css'
 })

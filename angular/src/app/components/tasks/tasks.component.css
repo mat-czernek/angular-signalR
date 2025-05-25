@@ -1,3 +1,23 @@
-.add-task-button {
-  margin-top: 10px;
+.add-task-label {
+  margin-right: 10px;
+}
+
+::ng-deep .add-task-button .p-button {
+  min-width: 150px;
+}
+
+.add-task-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+::ng-deep .delete-task-button .p-button {
+  margin: 5px;
+}
+
+.all-tasks-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

@@ -1,17 +1,23 @@
 <form (ngSubmit)="onAddTask()" [formGroup]="taskForm">
-  <div>
-    <label for="taskName">Name:</label>
-    <input formControlName="taskName" id="taskName">
+
+  <div class="add-task-area">
+    <input aria-describedby="taskName-help" formControlName="taskName" id="taskName" pInputText
+           placeholder="Enter task name"/>
+    <p-button [disabled]="taskForm.invalid" class="add-task-button" label="Add task" severity="info" type="submit"/>
   </div>
 
-  <button [disabled]="taskForm.invalid" class="add-task-button" type="submit">Add task</button>
+
 </form>
 
 <div>
   <ul>
     @for (task of allTasks(); track task.id) {
-      <li>{{ task.name }} -->
-        <button (click)="onRemoveTask(task.id)">Usuń</button>
+      <li>
+        <div class="all-tasks-area">
+          <p-button label="" icon="pi pi-trash" class="delete-task-button" severity="danger"
+                    (click)="onRemoveTask(task.id)"/>
+          {{ task.name }}
+        </div>
       </li>
     }
   </ul>
