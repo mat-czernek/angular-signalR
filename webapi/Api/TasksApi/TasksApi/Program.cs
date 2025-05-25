@@ -22,6 +22,8 @@ public class Program
             });
         });
 
+        builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddConsole());
+        
         builder.Services.AddSignalR();
         
         builder.Services.AddSingleton<ITaskStorage>(new TasksSingletonStorage());
