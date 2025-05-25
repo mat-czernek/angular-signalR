@@ -15,6 +15,7 @@
         <th>Time elapsed</th>
         <th>Status</th>
         <th style="width: 5rem"></th>
+        <th style="width: 5rem"></th>
       </tr>
     </ng-template>
     <ng-template #body let-task>
@@ -25,6 +26,9 @@
         <td>{{ statusToText(task.status) }}</td>
         <td>
           <p-button (click)="onRemoveTask(task.id)" icon="pi pi-trash" rounded severity="danger"/>
+        </td>
+        <td>
+          <p-button (click)="onExecuteTask(task)" icon="pi pi-send" rounded severity="info"/>
         </td>
       </tr>
     </ng-template>

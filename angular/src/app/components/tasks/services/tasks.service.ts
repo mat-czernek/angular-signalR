@@ -29,4 +29,8 @@ export class TasksService {
   public delete(id: number): Observable<any> {
     return this.http.delete(environment.apiBaseUrl + this.endpoint + "/" + id);
   }
+
+  public execute(task: TaskDto): Observable<any> {
+    return this.http.post(environment.apiBaseUrl + this.endpoint + "/execute/", task);
+  }
 }
