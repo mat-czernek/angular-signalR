@@ -13,6 +13,7 @@
         <th>Id</th>
         <th>Name</th>
         <th>Time elapsed</th>
+        <th>Status</th>
         <th style="width: 5rem"></th>
       </tr>
     </ng-template>
@@ -21,6 +22,7 @@
         <td>{{ task.id }}</td>
         <td>{{ task.name }}</td>
         <td>{{ task.timeElapsed }}</td>
+        <td>{{ statusToText(task.status) }}</td>
         <td>
           <p-button (click)="onRemoveTask(task.id)" icon="pi pi-trash" rounded severity="danger"/>
         </td>

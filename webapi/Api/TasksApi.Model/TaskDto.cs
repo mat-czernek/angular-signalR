@@ -7,4 +7,6 @@ public class TaskDto
     public string? Name { get; set; }
     
     public int TimeElapsed { get; set; }
+    
+    public TaskStatusDto Status { get; set; }
 }

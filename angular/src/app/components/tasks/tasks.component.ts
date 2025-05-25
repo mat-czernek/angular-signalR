@@ -7,6 +7,8 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {TableModule} from 'primeng/table';
+import {TaskStatusTranslator} from './misc/taskStatusTranslator';
+import {TaskStatusDto} from './models/taskStatusDto';
 
 @Component({
   selector: 'app-tasks',
@@ -58,5 +60,9 @@ export class TasksComponent implements OnInit {
     this.tasksService.delete(id).subscribe(() => {
       console.log("Task deleted");
     })
+  }
+
+  statusToText(status: TaskStatusDto): string {
+    return TaskStatusTranslator.toText(status);
   }
 }
