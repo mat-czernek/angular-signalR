@@ -22,20 +22,11 @@ export class TasksSignalrService {
       .start()
       .then(() => {
         console.log('Connected to hub');
-
-        //TODO: Just a dummy way to verify whether we can call the hub
-        //Move this on action from HTML tempalte
-        this.executeTask(new TaskDto(0, "d", 0));
       })
       .catch(error => console.log('Hub connection error: ' + error));
 
     this.hubConnection.on('TasksStatuses', (tasks: TaskDto[]) => {
       this.tasksStatusesSubject.next(tasks);
     })
-
-  }
-
-  public async executeTask(task: TaskDto) {
-    await this.hubConnection.invoke('ExecuteTask', task);
   }
 }

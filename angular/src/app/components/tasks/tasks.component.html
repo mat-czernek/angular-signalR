@@ -1,1 +1,14 @@
-<p>tasks works!</p>
+<form (ngSubmit)="onAddTask()" [formGroup]="tasksForm">
+  <div>
+    <label for="taskName">Name:</label>
+    <input formControlName="taskName" id="taskName">
+  </div>
+
+  <button [disabled]="tasksForm.invalid" class="add-task-button" type="submit">Add task</button>
+</form>
+
+<div>
+  @for (task of allTasks(); track task.id) {
+    <li>{{ task.name }} --></li>
+  }
+</div>

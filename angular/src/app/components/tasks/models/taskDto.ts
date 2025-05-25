@@ -1,11 +1,11 @@
 export class TaskDto {
-  public Id: number;
-  public Name: string;
-  public TimeElapsed: number;
+  public id: number;
+  public name: string;
+  public timeElapsed: number;
 
   constructor(id: number, name: string, timeElapsed: number) {
-    this.Id = id;
-    this.Name = name;
-    this.TimeElapsed = timeElapsed;
+    this.id = id;
+    this.name = name;
+    this.timeElapsed = timeElapsed;
   }
 }

@@ -14,15 +14,27 @@ public class TasksStatusService : ITasksStatusService
     public void AddTask(TaskDto task)
     {
         if (task == null) throw new ArgumentNullException(nameof(task));
+
+        if (_tasks.Any())
+        {
+            var maxIdFromExisting = _tasks.Max(x => x.Id);
+            task.Id = maxIdFromExisting + 1;
+        }
+        else
+        {
+            task.Id = 1;
+        }
         
         _tasks.Add(task);
     }
 
-    public void RemoveTask(TaskDto task)
+    public void RemoveTask(int id)
     {
-        if (task == null) throw new ArgumentNullException(nameof(task));
-
-        var taskToRemove = _tasks.Remove(task);
+        var task = _tasks.FirstOrDefault(x => x.Id == id);
+        
+        if (task == null) return;
+        
+        _tasks.Remove(task);
     }
 
     public async Task ExecuteTask(TaskDto task)
