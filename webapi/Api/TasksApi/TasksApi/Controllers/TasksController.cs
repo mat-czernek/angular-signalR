@@ -9,12 +9,10 @@ namespace TasksApi.Controllers;
 [Route("api/[controller]")]
 public class TasksController : ControllerBase
 {
-    private readonly IHubContext<TasksHub, ITasksStatusClient> _tasksStatusHubContext;
     private readonly ITasksStatusService _tasksStatusService;
 
-    public TasksController(IHubContext<TasksHub, ITasksStatusClient> tasksStatusHubContext, ITasksStatusService tasksStatusService)
+    public TasksController(ITasksStatusService tasksStatusService)
     {
-        _tasksStatusHubContext = tasksStatusHubContext ?? throw new ArgumentNullException(nameof(tasksStatusHubContext));
         _tasksStatusService = tasksStatusService ?? throw new ArgumentNullException(nameof(tasksStatusService));
     }
     
@@ -36,8 +34,7 @@ public class TasksController : ControllerBase
     public IActionResult CreateTask([FromBody] TaskDto task)
     {
         _tasksStatusService.AddTask(task);
-        _tasksStatusHubContext.Clients.All.TasksStatuses(_tasksStatusService.GetTasks());
-
+        
         return Ok();
     }
 
@@ -45,7 +42,6 @@ public class TasksController : ControllerBase
     public IActionResult DeleteTask(int id)
     {
         _tasksStatusService.RemoveTask(id);
-        _tasksStatusHubContext.Clients.All.TasksStatuses(_tasksStatusService.GetTasks());
 
         return Ok();
     }

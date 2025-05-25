@@ -1,57 +1,55 @@
+using Microsoft.AspNetCore.SignalR;
 using TasksApi.Model;
 
 namespace TasksApi.Core;
 
 public class TasksStatusService : ITasksStatusService
 {
-    private readonly List<TaskDto> _tasks = [];
-    
-    public TasksStatusService()
+    private readonly ITaskStorage _taskStorage;
+    private readonly IHubContext<TasksHub, ITasksStatusClient> _tasksStatusHubContext;
+
+    public TasksStatusService(ITaskStorage taskStorage, IHubContext<TasksHub, ITasksStatusClient> tasksStatusHubContext)
     {
-        
+        _taskStorage = taskStorage ?? throw new ArgumentNullException(nameof(taskStorage));
+        _tasksStatusHubContext = tasksStatusHubContext ?? throw new ArgumentNullException(nameof(tasksStatusHubContext));
     }
 
     public void AddTask(TaskDto task)
     {
-        if (task == null) throw new ArgumentNullException(nameof(task));
+        ArgumentNullException.ThrowIfNull(task);
+        _taskStorage.Add(task);
+        _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
+    }
 
-        if (_tasks.Any())
-        {
-            var maxIdFromExisting = _tasks.Max(x => x.Id);
-            task.Id = maxIdFromExisting + 1;
-        }
-        else
-        {
-            task.Id = 1;
-        }
-        
-        _tasks.Add(task);
+    public void UpdateTask(TaskDto task)
+    {
+        ArgumentNullException.ThrowIfNull(task);
+        _taskStorage.Update(task);
+        _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
     }
 
     public void RemoveTask(int id)
     {
-        var task = _tasks.FirstOrDefault(x => x.Id == id);
-        
-        if (task == null) return;
-        
-        _tasks.Remove(task);
+        _taskStorage.Delete(id);
+        _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
+    }
+    
+    public IReadOnlyCollection<TaskDto> GetTasks()
+    {
+        return _taskStorage.GetAll();
     }
 
     public async Task ExecuteTask(TaskDto task)
     {
-        if (task == null) throw new ArgumentNullException(nameof(task));
-        
-        var taskToExecute = _tasks.FirstOrDefault(t => t.Id == task.Id);
+        ArgumentNullException.ThrowIfNull(task);
+
+        if (_taskStorage.TryGetById(task.Id, out var taskToExecute) == false)
+            return;
         
         if (taskToExecute == null)
             return;
         
         // TODO: Execute fake task
         // await...
-    }
-
-    public IReadOnlyCollection<TaskDto> GetTasks()
-    {
-        return _tasks;
     }
 }

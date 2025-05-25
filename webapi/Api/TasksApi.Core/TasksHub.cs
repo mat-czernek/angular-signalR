@@ -5,7 +5,6 @@ namespace TasksApi.Core;
 
 public class TasksHub : Hub<ITasksStatusClient>
 {
-
 }
 
 public interface ITasksStatusClient
