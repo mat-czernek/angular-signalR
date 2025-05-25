@@ -33,7 +33,7 @@ public class TasksSingletonStorage : ITaskStorage
         if (_tasks.TryGetValue(task.Id, out var taskToUpdate) == false)
             return;
         
-        _tasks[task.Id] = taskToUpdate;
+        _tasks[taskToUpdate.Id] = task;
     }
 
     public IReadOnlyCollection<TaskDto> GetAll()

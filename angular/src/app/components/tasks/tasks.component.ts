@@ -3,10 +3,10 @@ import {TasksService} from './services/tasks.service';
 import {TasksSignalrService} from './services/tasks-signalr.service';
 import {TaskDto} from './models/taskDto';
 import {Subscription} from 'rxjs';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
-import {TableModule} from 'primeng/table';
+import {TableEditCompleteEvent, TableModule} from 'primeng/table';
 import {TaskStatusTranslator} from './misc/taskStatusTranslator';
 import {TaskStatusDto} from './models/taskStatusDto';
 
@@ -19,7 +19,8 @@ import {TaskStatusDto} from './models/taskStatusDto';
     ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
-    TableModule
+    TableModule,
+    FormsModule,
   ],
   styleUrl: './tasks.component.css'
 })
@@ -69,6 +70,18 @@ export class TasksComponent implements OnInit {
   onExecuteTask(task: TaskDto) {
     this.tasksService.execute(task).subscribe(() => {
       console.log("Task executed");
+    })
+  }
+
+  onTaskEditComplete(event: TableEditCompleteEvent) {
+    const task = this.allTasks().find((t) => t.id === event.index);
+
+    if (task === undefined) {
+      return;
+    }
+
+    this.tasksService.update(task).subscribe(() => {
+      console.log("Task updated");
     })
   }
 }

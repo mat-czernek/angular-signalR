@@ -53,4 +53,12 @@ public class TasksController : ControllerBase
         
         return Ok();
     }
+
+    [HttpPut]
+    public IActionResult UpdateTask([FromBody] TaskDto task)
+    {
+        _tasksStatusService.UpdateTask(task);
+        
+        return Ok();
+    }
 }

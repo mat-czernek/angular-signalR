@@ -7,7 +7,9 @@
 </div>
 
 <div>
-  <p-table [tableStyle]="{ 'min-width': '40rem', 'max-width': '60rem' }" [value]="allTasks()">
+  <p-table (onEditComplete)="onTaskEditComplete($event)" [tableStyle]="{ 'min-width': '40rem', 'max-width': '60rem' }"
+           [value]="allTasks()"
+           editMode="row">
     <ng-template #header>
       <tr>
         <th>Id</th>
@@ -18,10 +20,23 @@
         <th style="width: 5rem"></th>
       </tr>
     </ng-template>
-    <ng-template #body let-task>
+    <ng-template #body let-editing="editing" let-task>
       <tr>
         <td>{{ task.id }}</td>
-        <td>{{ task.name }}</td>
+        <td [pEditableColumnDisabled]="false" [pEditableColumnRowIndex]="task.id" [pEditableColumn]="task.name"
+            pEditableColumnField="name">
+          <p-cellEditor>
+            <ng-template #input>
+              <input
+                [(ngModel)]="task.name"
+                pInputText
+                type="text"/>
+            </ng-template>
+            <ng-template #output>
+              {{ task.name }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
         <td>{{ task.timeElapsed }}</td>
         <td>{{ statusToText(task.status) }}</td>
         <td>

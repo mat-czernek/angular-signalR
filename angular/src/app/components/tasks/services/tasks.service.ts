@@ -30,6 +30,10 @@ export class TasksService {
     return this.http.delete(environment.apiBaseUrl + this.endpoint + "/" + id);
   }
 
+  public update(task: TaskDto): Observable<any> {
+    return this.http.put(environment.apiBaseUrl + this.endpoint, task);
+  }
+
   public execute(task: TaskDto): Observable<any> {
     return this.http.post(environment.apiBaseUrl + this.endpoint + "/execute/", task);
   }
