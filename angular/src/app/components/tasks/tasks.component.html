@@ -1,1 +1,57 @@
-<p>tasks works!</p>
+<div class="add-task-area">
+  <form (ngSubmit)="onAddTask()" [formGroup]="taskForm">
+    <input aria-describedby="taskName-help" formControlName="taskName" id="taskName" pInputText
+           placeholder="Enter task name"/>
+    <p-button [disabled]="taskForm.invalid" class="add-task-button" label="Add task" severity="info" type="submit"/>
+  </form>
+</div>
+
+<div>
+  <p-table (onEditComplete)="onTaskEditComplete($event)" [tableStyle]="{ 'min-width': '60rem', 'max-width': '80rem' }"
+           [value]="allTasks()"
+           editMode="row">
+    <ng-template #header>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Time elapsed</th>
+        <th>Status</th>
+        <th style="width: 5rem">Delete</th>
+        <th style="width: 7rem">Reply to all</th>
+        <th style="width: 9rem">Reply to caller</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-editing="editing" let-task>
+      <tr>
+        <td>{{ task.id }}</td>
+        <td [pEditableColumnDisabled]="false" [pEditableColumnRowIndex]="task.id" [pEditableColumn]="task.name"
+            pEditableColumnField="name">
+          <p-cellEditor>
+            <ng-template #input>
+              <input
+                [(ngModel)]="task.name"
+                pInputText
+                type="text"/>
+            </ng-template>
+            <ng-template #output>
+              {{ task.name }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>{{ task.timeElapsed }}</td>
+        <td>{{ statusToText(task.status) }}</td>
+        <td style="text-align: center">
+          <p-button (click)="onRemoveTask(task.id)" icon="pi pi-trash" rounded severity="danger"/>
+        </td>
+        <td style="text-align: center">
+          <p-button (click)="onExecuteWithResponseForAll(task)" icon="pi pi-send" rounded
+                    severity="info"/>
+        </td>
+        <td style="text-align: center">
+          <p-button (click)="onExecuteWithResponseForCaller(task)" icon="pi pi-send" rounded
+                    severity="info"/>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

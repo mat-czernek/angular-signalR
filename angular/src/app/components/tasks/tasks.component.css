@@ -1,0 +1,15 @@
+.add-task-label {
+  margin-right: 10px;
+}
+
+::ng-deep .add-task-button .p-button {
+  min-width: 150px;
+  margin-left: 10px;
+}
+
+.add-task-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}

@@ -1,3 +1,5 @@
+using TasksApi.Core;
+
 namespace TasksApi;
 
 public class Program
@@ -11,14 +13,21 @@ public class Program
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
-
+        builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AngularCorsPolicy", policyBuilder =>
             {
-                policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
+                policyBuilder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200", "http://localhost:5172");
             });
         });
+
+        builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddConsole());
+        
+        builder.Services.AddSignalR();
+        
+        builder.Services.AddSingleton<ITaskStorage>(new TasksInMemoryStorage());
+        builder.Services.AddScoped<ITasksStatusService, TasksStatusService>();
         
         var app = builder.Build();
 
@@ -35,6 +44,8 @@ public class Program
         app.MapControllers();
 
         app.UseCors("AngularCorsPolicy");
+        
+        app.MapHub<TasksHub>("/tasksHub");
 
         app.Run();
     }
