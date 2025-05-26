@@ -26,7 +26,7 @@ public class Program
         
         builder.Services.AddSignalR();
         
-        builder.Services.AddSingleton<ITaskStorage>(new TasksSingletonStorage());
+        builder.Services.AddSingleton<ITaskStorage>(new TasksInMemoryStorage());
         builder.Services.AddScoped<ITasksStatusService, TasksStatusService>();
         
         var app = builder.Build();

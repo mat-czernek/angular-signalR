@@ -3,7 +3,7 @@ using TasksApi.Model;
 
 namespace TasksApi.Core;
 
-public class TasksSingletonStorage : ITaskStorage
+public class TasksInMemoryStorage : ITaskStorage
 {
     private readonly ConcurrentDictionary<int, TaskDto> _tasks = new ConcurrentDictionary<int, TaskDto>();
     
