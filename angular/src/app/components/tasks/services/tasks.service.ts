@@ -14,11 +14,7 @@ export class TasksService {
 
   constructor(private http: HttpClient, private taskSignalrService: TasksSignalrService) {
   }
-
-  public ping(): Observable<any> {
-    return this.http.get<any>(environment.apiBaseUrl + this.endpoint + "/ping");
-  }
-
+  
   public get(): Observable<TaskDto[]> {
     return this.http.get<TaskDto[]>(environment.apiBaseUrl + this.endpoint);
   }
