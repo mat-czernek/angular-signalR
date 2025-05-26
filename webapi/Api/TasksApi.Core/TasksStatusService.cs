@@ -62,9 +62,7 @@ public class TasksStatusService : ITasksStatusService
             await _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
         
             var stopwatch = Stopwatch.StartNew();
-            
             await Task.Delay(_generateTaskExecutionTime());
-        
             stopwatch.Stop();
 
             taskToExecute.TimeElapsed = stopwatch.Elapsed.TotalSeconds;
@@ -81,6 +79,6 @@ public class TasksStatusService : ITasksStatusService
     private static int _generateTaskExecutionTime()
     {
         var random = new Random();
-        return random.Next(10, 30) * 1000;
+        return random.Next(3, 6) * 1000;
     }
 }
