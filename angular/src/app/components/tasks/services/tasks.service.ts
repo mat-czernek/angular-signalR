@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {TaskDto} from '../models/taskDto';
+import {TasksSignalrService} from '../../../services/signalR/tasks-signalr.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class TasksService {
 
   private readonly endpoint = "tasks";
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private taskSignalrService: TasksSignalrService) {
   }
 
   public ping(): Observable<any> {
@@ -34,7 +35,11 @@ export class TasksService {
     return this.http.put(environment.apiBaseUrl + this.endpoint, task);
   }
 
-  public execute(task: TaskDto): Observable<any> {
-    return this.http.post(environment.apiBaseUrl + this.endpoint + "/execute/", task);
+  public executeWithResponseForAll(task: TaskDto): Observable<any> {
+    return this.http.post(environment.apiBaseUrl + this.endpoint + "/executeWithResponseForAll/", task);
+  }
+
+  public executeWithResponseForCaller(task: TaskDto): Observable<any> {
+    return this.http.post(environment.apiBaseUrl + this.endpoint + "/executeWithResponseForCaller/" + this.taskSignalrService.connectionId, task);
   }
 }

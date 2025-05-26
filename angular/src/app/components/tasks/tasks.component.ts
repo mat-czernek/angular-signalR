@@ -63,8 +63,14 @@ export class TasksComponent implements OnInit {
     return TaskStatusTranslator.toText(status);
   }
 
-  onExecuteTask(task: TaskDto) {
-    this.tasksService.execute(task).subscribe(() => {
+  onExecuteWithResponseForAll(task: TaskDto) {
+    this.tasksService.executeWithResponseForAll(task).subscribe(() => {
+      console.log("Task executed");
+    })
+  }
+
+  onExecuteWithResponseForCaller(task: TaskDto) {
+    this.tasksService.executeWithResponseForCaller(task).subscribe(() => {
       console.log("Task executed");
     })
   }

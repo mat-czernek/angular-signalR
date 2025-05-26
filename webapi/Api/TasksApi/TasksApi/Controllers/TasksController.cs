@@ -46,10 +46,18 @@ public class TasksController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("execute")]
-    public async Task<IActionResult> ExecuteTask([FromBody] TaskDto task)
+    [HttpPost("executeWithResponseForAll")]
+    public async Task<IActionResult> ExecuteTaskWithResponseForAll([FromBody] TaskDto task)
     {
         await Task.Run(() => _tasksStatusService.ExecuteTask(task));
+        
+        return Ok();
+    }
+    
+    [HttpPost("executeWithResponseForCaller/{connectionId}")]
+    public async Task<IActionResult> ExecuteTaskWithResponseForCaller([FromBody] TaskDto task, [FromRoute] string connectionId)
+    {
+        await Task.Run(() => _tasksStatusService.ExecuteTask(task, connectionId));
         
         return Ok();
     }

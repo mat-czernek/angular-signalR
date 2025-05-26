@@ -7,7 +7,7 @@
 </div>
 
 <div>
-  <p-table (onEditComplete)="onTaskEditComplete($event)" [tableStyle]="{ 'min-width': '40rem', 'max-width': '60rem' }"
+  <p-table (onEditComplete)="onTaskEditComplete($event)" [tableStyle]="{ 'min-width': '60rem', 'max-width': '80rem' }"
            [value]="allTasks()"
            editMode="row">
     <ng-template #header>
@@ -16,8 +16,9 @@
         <th>Name</th>
         <th>Time elapsed</th>
         <th>Status</th>
-        <th style="width: 5rem"></th>
-        <th style="width: 5rem"></th>
+        <th style="width: 5rem">Delete</th>
+        <th style="width: 7rem">Reply to all</th>
+        <th style="width: 9rem">Reply to caller</th>
       </tr>
     </ng-template>
     <ng-template #body let-editing="editing" let-task>
@@ -39,11 +40,16 @@
         </td>
         <td>{{ task.timeElapsed }}</td>
         <td>{{ statusToText(task.status) }}</td>
-        <td>
+        <td style="text-align: center">
           <p-button (click)="onRemoveTask(task.id)" icon="pi pi-trash" rounded severity="danger"/>
         </td>
-        <td>
-          <p-button (click)="onExecuteTask(task)" icon="pi pi-send" rounded severity="info"/>
+        <td style="text-align: center">
+          <p-button (click)="onExecuteWithResponseForAll(task)" icon="pi pi-send" rounded
+                    severity="info"/>
+        </td>
+        <td style="text-align: center">
+          <p-button (click)="onExecuteWithResponseForCaller(task)" icon="pi pi-send" rounded
+                    severity="info"/>
         </td>
       </tr>
     </ng-template>

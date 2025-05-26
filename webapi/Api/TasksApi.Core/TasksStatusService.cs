@@ -45,7 +45,19 @@ public class TasksStatusService : ITasksStatusService
         return _taskStorage.GetAll();
     }
 
-    public async Task ExecuteTask(TaskDto task)
+    public Task ExecuteTask(TaskDto task)
+    {
+        return ExecuteTaskInternal(task, () =>
+            _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll()));
+    }
+
+    public Task ExecuteTask(TaskDto task, string connectionId)
+    {
+        return ExecuteTaskInternal(task, () =>
+            _tasksStatusHubContext.Clients.Client(connectionId).TasksStatuses(_taskStorage.GetAll()));
+    }
+
+    private async Task ExecuteTaskInternal(TaskDto task, Func<Task> notifyClients)
     {
         try
         {
@@ -59,7 +71,8 @@ public class TasksStatusService : ITasksStatusService
             taskToExecute.TimeElapsed = 0;
             
             _taskStorage.Update(taskToExecute);
-            await _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
+            
+            await notifyClients();
         
             var stopwatch = Stopwatch.StartNew();
             await Task.Delay(_generateTaskExecutionTime());
@@ -68,14 +81,15 @@ public class TasksStatusService : ITasksStatusService
             taskToExecute.TimeElapsed = stopwatch.Elapsed.TotalSeconds;
             taskToExecute.Status = TaskStatusDto.Completed;
             _taskStorage.Update(taskToExecute);
-            await _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
+            
+            await notifyClients();
         }
         catch (Exception e)
         {
             _logger.LogError("Task execution failed with message: {message}", e.Message);
         }
     }
-
+    
     private static int _generateTaskExecutionTime()
     {
         var random = new Random();

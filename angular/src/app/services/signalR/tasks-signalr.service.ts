@@ -9,10 +9,9 @@ import {environment} from '../../../environments/environment';
 })
 export class TasksSignalrService {
 
+  public connectionId: string = '';
   private readonly hubConnection: HubConnection;
-
   private tasksStatusesSubject = new Subject<TaskDto[]>();
-  
   public tasksStatuses$: Observable<TaskDto[]> = this.tasksStatusesSubject.asObservable();
 
   constructor() {
@@ -31,6 +30,7 @@ export class TasksSignalrService {
       .start()
       .then(() => {
         console.log('Connected to tasks hub.');
+        this.connectionId = this.hubConnection.connectionId ?? '';
       })
       .catch(error => console.log('Tasks hub connection error: ' + error));
 
