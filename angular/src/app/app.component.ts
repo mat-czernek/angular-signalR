@@ -16,7 +16,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.tasksSignalrService.start();
   }
 
-
   ngOnDestroy(): void {
     this.tasksSignalrService.stop();
   }

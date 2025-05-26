@@ -46,17 +46,12 @@ export class TasksComponent implements OnInit {
   }
 
   onAddTask() {
-    console.log(this.taskForm.value.taskName);
     const task = new TaskDto(0, this.taskForm.value.taskName, 0);
-    this.tasksService.add(task).subscribe(() => {
-      console.log("Added task");
-    })
+    this.tasksService.add(task).subscribe();
   }
 
   onRemoveTask(id: number) {
-    this.tasksService.delete(id).subscribe(() => {
-      console.log("Task deleted");
-    })
+    this.tasksService.delete(id).subscribe();
   }
 
   statusToText(status: TaskStatusDto): string {
@@ -64,15 +59,11 @@ export class TasksComponent implements OnInit {
   }
 
   onExecuteWithResponseForAll(task: TaskDto) {
-    this.tasksService.executeWithResponseForAll(task).subscribe(() => {
-      console.log("Task executed");
-    })
+    this.tasksService.executeWithResponseForAll(task).subscribe();
   }
 
   onExecuteWithResponseForCaller(task: TaskDto) {
-    this.tasksService.executeWithResponseForCaller(task).subscribe(() => {
-      console.log("Task executed");
-    })
+    this.tasksService.executeWithResponseForCaller(task).subscribe();
   }
 
   onTaskEditComplete(event: TableEditCompleteEvent) {
@@ -82,8 +73,6 @@ export class TasksComponent implements OnInit {
       return;
     }
 
-    this.tasksService.update(task).subscribe(() => {
-      console.log("Task updated");
-    })
+    this.tasksService.update(task).subscribe();
   }
 }
