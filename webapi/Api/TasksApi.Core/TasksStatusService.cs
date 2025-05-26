@@ -18,26 +18,26 @@ public class TasksStatusService : ITasksStatusService
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public void AddTask(TaskDto task)
+    public async Task AddTask(TaskDto task)
     {
         ArgumentNullException.ThrowIfNull(task);
         
         _taskStorage.Add(task);
-        _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
+        await _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
     }
 
-    public void UpdateTask(TaskDto task)
+    public async Task UpdateTask(TaskDto task)
     {
         ArgumentNullException.ThrowIfNull(task);
         
         _taskStorage.Update(task);
-        _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
+        await _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
     }
 
-    public void RemoveTask(int id)
+    public async Task RemoveTask(int id)
     {
         _taskStorage.Delete(id);
-        _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
+        await _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
     }
     
     public IReadOnlyCollection<TaskDto> GetTasks()

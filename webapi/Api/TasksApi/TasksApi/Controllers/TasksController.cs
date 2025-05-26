@@ -31,33 +31,33 @@ public class TasksController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateTask([FromBody] TaskDto task)
+    public async Task<IActionResult> CreateTask([FromBody] TaskDto task)
     {
-        _tasksStatusService.AddTask(task);
+        await _tasksStatusService.AddTask(task);
         
         return Ok();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteTask(int id)
+    public async Task<IActionResult> DeleteTask(int id)
     {
-        _tasksStatusService.RemoveTask(id);
+        await _tasksStatusService.RemoveTask(id);
 
         return Ok();
     }
 
     [HttpPost("execute")]
-    public IActionResult ExecuteTask([FromBody] TaskDto task)
+    public async Task<IActionResult> ExecuteTask([FromBody] TaskDto task)
     {
-        Task.Run(() => _tasksStatusService.ExecuteTask(task));
+        await Task.Run(() => _tasksStatusService.ExecuteTask(task));
         
         return Ok();
     }
 
     [HttpPut]
-    public IActionResult UpdateTask([FromBody] TaskDto task)
+    public async Task<IActionResult> UpdateTask([FromBody] TaskDto task)
     {
-        _tasksStatusService.UpdateTask(task);
+        await _tasksStatusService.UpdateTask(task);
         
         return Ok();
     }

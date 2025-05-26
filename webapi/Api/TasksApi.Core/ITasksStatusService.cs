@@ -4,9 +4,9 @@ namespace TasksApi.Core;
 
 public interface ITasksStatusService
 {
-    void AddTask(TaskDto task);
-    void RemoveTask(int id);
-    void UpdateTask(TaskDto task);
+    Task AddTask(TaskDto task);
+    Task RemoveTask(int id);
+    Task UpdateTask(TaskDto task);
     Task ExecuteTask(TaskDto task);
     IReadOnlyCollection<TaskDto> GetTasks();
 }
