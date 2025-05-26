@@ -1,14 +1,14 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {TasksService} from './services/tasks.service';
-import {TasksSignalrService} from './services/tasks-signalr.service';
 import {TaskDto} from './models/taskDto';
-import {Subscription} from 'rxjs';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {TableEditCompleteEvent, TableModule} from 'primeng/table';
 import {TaskStatusTranslator} from './misc/taskStatusTranslator';
 import {TaskStatusDto} from './models/taskStatusDto';
+import {TasksSignalrService} from '../../services/signalR/tasks-signalr.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-tasks',
@@ -36,17 +36,13 @@ export class TasksComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tasksService.ping().subscribe(() => {
-      console.log("Ping completed.");
-    });
+    this.tasksSubscription = this.tasksSignalrService.tasksStatuses$.subscribe(tasks => {
+      this.allTasks.set([...tasks]);
+    })
 
     this.tasksService.get().subscribe(tasks => {
       this.allTasks.set(tasks);
     });
-
-    this.tasksSubscription = this.tasksSignalrService.tasksStatuses$.subscribe(tasks => {
-      this.allTasks.set([...tasks]);
-    })
   }
 
   onAddTask() {
