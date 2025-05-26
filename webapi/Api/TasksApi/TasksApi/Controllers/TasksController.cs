@@ -38,7 +38,7 @@ public class TasksController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteTask(int id)
     {
         await _tasksStatusService.RemoveTask(id);
