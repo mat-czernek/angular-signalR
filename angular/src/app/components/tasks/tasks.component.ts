@@ -75,4 +75,16 @@ export class TasksComponent implements OnInit {
 
     this.tasksService.update(task).subscribe();
   }
+
+  private _runningTasksCount: number = 0;
+
+  public get runningTasksCount(): string {
+    return String(this._runningTasksCount);
+  }
+
+  onGetRunningTasksCount() {
+    this.tasksSignalrService.getRunningTasksCount().subscribe((count) => {
+      this._runningTasksCount = count;
+    });
+  }
 }

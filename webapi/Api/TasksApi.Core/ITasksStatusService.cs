@@ -4,6 +4,8 @@ namespace TasksApi.Core;
 
 public interface ITasksStatusService
 {
+    int RunningTasksCount { get; }
+    
     Task AddTask(TaskDto task);
     Task RemoveTask(int id);
     Task UpdateTask(TaskDto task);

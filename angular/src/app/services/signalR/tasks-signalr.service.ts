@@ -48,4 +48,19 @@ export class TasksSignalrService {
       console.log('Disconnected from tasks hub.');
     });
   }
+
+  public getRunningTasksCount(): Observable<number> {
+    return new Observable<number>((subscriber) => {
+      this.hubConnection
+        .invoke<number>('RunningTasksCount')
+        .then((count) => {
+          subscriber.next(count);
+          subscriber.complete();
+        })
+        .catch((err) => {
+          subscriber.error(err);
+        });
+    });
+  }
+
 }
