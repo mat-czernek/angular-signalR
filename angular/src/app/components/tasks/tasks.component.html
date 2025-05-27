@@ -3,6 +3,7 @@
     <input aria-describedby="taskName-help" formControlName="taskName" id="taskName" pInputText
            placeholder="Enter task name"/>
     <p-button [disabled]="taskForm.invalid" class="add-task-button" label="Add task" severity="info" type="submit"/>
+    <p-button label="Get running tasks count" class="add-task-button" icon="pi pi-bell" [badge]="runningTasksCount" (onClick)="onGetRunningTasksCount()" badgeSeverity="contrast" styleClass="m-0" [outlined]="true" />
   </form>
 </div>
 

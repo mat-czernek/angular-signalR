@@ -18,6 +18,8 @@ public class TasksStatusService : ITasksStatusService
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
+    public int RunningTasksCount => _taskStorage.GetAll().Count(t => t.Status == TaskStatusDto.InProgress);
+
     public async Task AddTask(TaskDto task)
     {
         ArgumentNullException.ThrowIfNull(task);
