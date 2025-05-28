@@ -7,17 +7,16 @@ public class TasksInMemoryStorage : ITaskStorage
 {
     private readonly ConcurrentDictionary<int, TaskDto> _tasks = new ConcurrentDictionary<int, TaskDto>();
     
-    public void Add(TaskDto task)
+    public TaskDto Add(TaskDto task)
     {
-        if (_tasks.ContainsKey(task.Id))
-            return;
-
         if (_tasks.IsEmpty)
             task.Id = 1;
         else
             task.Id = _tasks.Max(t => t.Key) + 1;
         
         _tasks.TryAdd(task.Id, task);
+
+        return task;
     }
 
     public void Delete(int id)
@@ -28,12 +27,14 @@ public class TasksInMemoryStorage : ITaskStorage
         _tasks.TryRemove(id, out _);
     }
 
-    public void Update(TaskDto task)
+    public TaskDto Update(TaskDto task)
     {
         if (_tasks.TryGetValue(task.Id, out var taskToUpdate) == false)
-            return;
+            return task;
         
         _tasks[taskToUpdate.Id] = task;
+
+        return task;
     }
 
     public IReadOnlyCollection<TaskDto> GetAll()

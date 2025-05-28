@@ -27,6 +27,7 @@ import {Subscription} from 'rxjs';
 export class TasksComponent implements OnInit {
   public allTasks = signal<Array<TaskDto>>([]);
   public tasksSubscription?: Subscription;
+  public taskSubscription?: Subscription;
   public taskForm: FormGroup;
 
   constructor(private tasksService: TasksService, private tasksSignalrService: TasksSignalrService, private formBuilder: FormBuilder) {
@@ -38,6 +39,16 @@ export class TasksComponent implements OnInit {
   ngOnInit(): void {
     this.tasksSubscription = this.tasksSignalrService.tasksStatuses$.subscribe(tasks => {
       this.allTasks.set([...tasks]);
+    })
+
+    this.taskSubscription = this.tasksSignalrService.taskStatus$.subscribe((task) => {
+      const taskIndex = this.allTasks().findIndex(t => t.id === task.id);
+
+      if (taskIndex !== -1) {
+        this.allTasks()[taskIndex] = task;
+      } else {
+        this.allTasks().push(task);
+      }
     })
 
     this.tasksService.get().subscribe(tasks => {

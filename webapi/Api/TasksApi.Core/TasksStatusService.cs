@@ -24,16 +24,16 @@ public class TasksStatusService : ITasksStatusService
     {
         ArgumentNullException.ThrowIfNull(task);
         
-        _taskStorage.Add(task);
-        await _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
+        task = _taskStorage.Add(task);
+        await _tasksStatusHubContext.Clients.All.TaskStatus(task);
     }
 
     public async Task UpdateTask(TaskDto task)
     {
         ArgumentNullException.ThrowIfNull(task);
         
-        _taskStorage.Update(task);
-        await _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll());
+        task = _taskStorage.Update(task);
+        await _tasksStatusHubContext.Clients.All.TaskStatus(task);
     }
 
     public async Task RemoveTask(int id)
@@ -49,17 +49,17 @@ public class TasksStatusService : ITasksStatusService
 
     public Task ExecuteTask(TaskDto task)
     {
-        return ExecuteTaskInternal(task, () =>
-            _tasksStatusHubContext.Clients.All.TasksStatuses(_taskStorage.GetAll()));
+        return ExecuteTaskInternal(task, (t) =>
+            _tasksStatusHubContext.Clients.All.TaskStatus(t));
     }
 
     public Task ExecuteTask(TaskDto task, string connectionId)
     {
-        return ExecuteTaskInternal(task, () =>
-            _tasksStatusHubContext.Clients.Client(connectionId).TasksStatuses(_taskStorage.GetAll()));
+        return ExecuteTaskInternal(task, (t) =>
+            _tasksStatusHubContext.Clients.Client(connectionId).TaskStatus(t));
     }
 
-    private async Task ExecuteTaskInternal(TaskDto task, Func<Task> notifyClients)
+    private async Task ExecuteTaskInternal(TaskDto task, Func<TaskDto, Task> notifyClients)
     {
         try
         {
@@ -74,7 +74,7 @@ public class TasksStatusService : ITasksStatusService
             
             _taskStorage.Update(taskToExecute);
             
-            await notifyClients();
+            await notifyClients(taskToExecute);
         
             var stopwatch = Stopwatch.StartNew();
             await Task.Delay(_generateTaskExecutionTime());
@@ -84,7 +84,7 @@ public class TasksStatusService : ITasksStatusService
             taskToExecute.Status = TaskStatusDto.Completed;
             _taskStorage.Update(taskToExecute);
             
-            await notifyClients();
+            await notifyClients(taskToExecute);
         }
         catch (Exception e)
         {

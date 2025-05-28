@@ -14,6 +14,9 @@ export class TasksSignalrService {
   private tasksStatusesSubject = new Subject<TaskDto[]>();
   public tasksStatuses$: Observable<TaskDto[]> = this.tasksStatusesSubject.asObservable();
 
+  private taskStatusSubject = new Subject<TaskDto>();
+  public taskStatus$: Observable<TaskDto> = this.taskStatusSubject.asObservable();
+
   constructor() {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(environment.signalRBaseUrl + "tasksHub")
@@ -37,6 +40,10 @@ export class TasksSignalrService {
     this.hubConnection.on('TasksStatuses', (tasks: TaskDto[]) => {
       this.tasksStatusesSubject.next(tasks);
     })
+
+    this.hubConnection.on('TaskStatus', (task: TaskDto) => {
+      this.taskStatusSubject.next(task);
+    });
   }
 
   public stop() {
