@@ -22,5 +22,7 @@ public interface ITasksStatusClient
 {
     Task TasksStatuses(IReadOnlyCollection<TaskDto> tasks);
 
+    Task TaskStatus(TaskDto task);
+
     Task<int> RunningTasksCount(int tasksCount);
 }
